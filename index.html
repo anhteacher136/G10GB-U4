@@ -1,0 +1,321 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Game Unit 4 For a better community – Tiếng Anh 10 – Tiếng Anh Cô Ánh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#EEF5FF;--bg2:#DCEAFF;--card:#fff;--soft:#F5F9FF;--blue:#2F7DE1;--blue-d:#1A56A8;--blue-l:#CFE2FF;--line:#BCD5F5;--ink:#1E2A3B;--muted:#5E7189;--gold:#F2B53A;--ok:#23946A;--ok-bg:#E4F7EE;--bad:#D63F5C;--bad-bg:#FFE6EA;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5;min-height:100vh;
+ background-image:radial-gradient(circle at 10% 6%,#D4E6FF 0 90px,transparent 91px),radial-gradient(circle at 94% 20%,#E2EEFF 0 130px,transparent 131px);background-attachment:fixed}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 48px}
+.hero{background:linear-gradient(135deg,#6BAAF5 0%,#2F7DE1 55%,#1E5FC2 100%);color:#fff;border-radius:26px;padding:22px 22px 20px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.14)}
+.brand{font-weight:700;font-size:15px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.9;margin-top:6px}
+.hero h1{margin:4px 0 0;font-size:clamp(26px,6vw,38px);font-weight:800;line-height:1.1}
+.hero p{margin:8px 0 0;font-weight:300;max-width:56ch;position:relative;z-index:1}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:18px;margin-top:16px}
+.card h2{margin:0 0 10px;font-size:19px;color:var(--blue-d)}
+.fields{display:grid;grid-template-columns:1fr 130px;gap:10px}
+@media(max-width:520px){.fields{grid-template-columns:1fr}}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--blue-d);margin-bottom:4px}
+.fields input{width:100%;border:2px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--soft)}
+.fields input:focus{outline:none;border-color:var(--blue)}
+.err{color:var(--bad);font-size:13px;margin-top:6px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.mode{text-align:left;border:2px solid var(--line);background:var(--soft);border-radius:16px;padding:12px 14px;cursor:pointer;transition:transform .1s,border-color .15s}
+.mode:hover{border-color:var(--blue);transform:translateY(-2px)}
+.mode b{display:block;color:var(--blue-d);font-size:16px}
+.mode span{font-size:13px;color:var(--muted)}
+.mode.big{background:linear-gradient(135deg,#FFF6DD,#FFEBB5);border-color:#F4D27A}
+.mode.big b{color:#8A5A00}
+.best{font-size:13px;color:var(--muted);margin-top:10px}
+.rules{margin:0;padding-left:18px;font-size:14px;color:var(--muted)}
+.rules b{color:var(--ink)}
+/* game */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:rgba(238,245,255,.95);backdrop-filter:blur(6px);padding:10px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.pill{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill.score{color:var(--blue-d)}
+.pill.combo{background:var(--gold);border-color:#E0A21F;color:#5A3A00}
+.hearts{letter-spacing:2px}
+.grow{flex:1}
+.timer{height:10px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:12px}
+.timer i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#23946A,#F2B53A);transition:width .25s linear}
+.timer.low i{background:var(--bad)}
+.qcard{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:18px;margin-top:12px}
+.qmeta{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);font-weight:600}
+.qmeta .cat{background:var(--blue-l);color:var(--blue-d);border-radius:8px;padding:1px 8px}
+.qtext{font-size:19px;font-weight:600;margin:10px 0 4px}
+.passage{background:linear-gradient(180deg,#FFF9E9,#FFF4DA);border:1.5px solid #F4DDA0;border-radius:14px;margin:10px 0;font-size:15px}
+.passage summary{cursor:pointer;padding:10px 14px;font-weight:600;color:var(--blue-d)}
+.passage div{padding:0 14px 8px}
+.passage p{margin:0 0 8px}
+.opts{display:grid;gap:8px;margin-top:12px}
+.opts.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:480px){.opts.grid4{grid-template-columns:1fr}}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--soft);border-radius:14px;padding:11px 12px;cursor:pointer;font-size:16px;transition:transform .08s,background .15s,border-color .15s;min-height:52px}
+.opt:hover:not(:disabled){border-color:var(--blue);transform:translateY(-1px)}
+.opt .l{flex:none;width:28px;height:28px;border-radius:9px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.opt b{color:var(--blue-d);text-decoration:underline;text-underline-offset:3px}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--ok-bg);border-color:var(--ok)}
+.opt.right .l{background:var(--ok)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.wrong .l{background:var(--bad)}
+.opt.gone{opacity:.25}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pop{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.04)}}
+.helps{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.help{border:1.5px dashed var(--line);background:#fff;border-radius:12px;padding:6px 12px;font-size:14px;font-weight:600;color:var(--blue-d);cursor:pointer}
+.help:disabled{opacity:.35;cursor:default}
+.fb{margin-top:12px;border-radius:14px;padding:12px 14px;font-size:15px}
+.fb.ok{background:var(--ok-bg)} .fb.bad{background:var(--bad-bg)}
+.fb .v{font-weight:700} .fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.fb .gain{float:right;font-weight:800;color:var(--ok)}
+.btn{border:0;border-radius:14px;padding:12px 24px;font-weight:700;cursor:pointer;font-size:17px}
+.btn-main{background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-d)}
+.btn-main:active{transform:translateY(3px);box-shadow:0 2px 0 var(--blue-d)}
+.btn-ghost{background:#fff;border:2px solid var(--line);color:var(--blue-d)}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.float{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);font-size:34px;font-weight:800;color:var(--ok);pointer-events:none;animation:up 0.9s forwards;z-index:50;text-shadow:0 2px 0 #fff}
+@keyframes up{to{transform:translate(-50%,-140%);opacity:0}}
+/* end */
+.end-top{background:linear-gradient(135deg,#6BAAF5,#2F7DE1);color:#fff;border-radius:22px;padding:20px;text-align:center}
+.stars{font-size:40px;letter-spacing:6px}
+.big{font-size:52px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
+.stat{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:13px;text-align:center}
+.stat b{display:block;font-size:20px;color:var(--blue-d);font-variant-numeric:tabular-nums}
+.notebook{background:#FFFBE8;border:2px solid var(--gold);border-radius:16px;padding:14px 16px;margin-top:14px}
+.notebook h3{margin:0 0 6px;color:#9A6A00;font-size:17px}
+.notebook ol{margin:0;padding-left:20px;font-size:14.5px}
+.notebook li{margin-bottom:8px}
+.notebook .why{color:var(--muted);font-size:13.5px}
+.sendst{margin-top:12px;font-size:14px;font-weight:600;text-align:center}
+footer{margin-top:30px;text-align:center;font-size:13px;color:var(--muted)}
+footer b{color:var(--blue-d)}
+.sound{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;font-size:14px}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:60}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<canvas id="fx"></canvas>
+<div class="wrap">
+ <header class="hero">
+  <div class="brand">🌸 Tiếng Anh Cô Ánh</div>
+  <div class="eyebrow">Tiếng Anh 10 · Global Success · Unit 4 For a better community</div>
+  <h1>🏆 Đấu trường Unit 4</h1>
+  <p>Trả lời nhanh để được thưởng điểm thời gian, trả lời đúng liên tiếp để nhân combo. Câu nào sai có lời giải ngay để em nhớ lâu.</p>
+ </header>
+ <main id="app"></main>
+ <footer><b>Tiếng Anh Cô Ánh</b> · Game ôn tập · Unit 4 For a better community · Tiếng Anh 10 Global Success</footer>
+</div>
+<script>
+const DATA = {"Q": [{"c": "V", "q": "Our club ______ money for the local orphanage last month.", "o": ["grew", "made", "raised", "rose"], "a": 2, "e": "raise money = quyên góp, gây quỹ. rise (rose) là nội động từ, không có tân ngữ theo sau."}, {"c": "V", "q": "Many students ______ up for the Green Summer campaign.", "o": ["signed", "got", "took", "wrote"], "a": 0, "e": "sign up for = đăng ký tham gia."}, {"c": "V", "q": "Volunteers ______ food and clothes to people in need.", "o": ["sold", "bought", "donated", "borrowed"], "a": 2, "e": "donate sth to sb = quyên góp, tặng cái gì cho ai. Tình nguyện viên tặng đồ cho người gặp khó khăn."}, {"c": "V", "q": "Children in ______ areas often have difficulty getting to school.", "o": ["central", "modern", "crowded", "remote"], "a": 3, "e": "remote = xa xôi, hẻo lánh. Trẻ em ở vùng xa gặp khó khăn khi đến trường."}, {"c": "V", "q": "______ children come from poor families and don't have the same opportunities as others.", "o": ["Generous", "Disadvantaged", "Confident", "Creative"], "a": 1, "e": "disadvantaged = thiệt thòi, có hoàn cảnh khó khăn. Vế sau \"come from poor families\" là manh mối."}, {"c": "V", "q": "Volunteering ______ both the community and the volunteers.", "o": ["benefits", "costs", "harms", "hurts"], "a": 0, "e": "benefit (v) = có lợi cho. Hoạt động tình nguyện có lợi cho cả cộng đồng và người tham gia."}, {"c": "V", "q": "She volunteers as a ______, helping children with their homework.", "o": ["guest", "tutor", "patient", "customer"], "a": 1, "e": "tutor = gia sư, người dạy kèm. Người giúp trẻ làm bài tập về nhà là gia sư."}, {"c": "V", "q": "Our class is ______ on a project to clean up the beach.", "o": ["doing", "making", "taking", "working"], "a": 3, "e": "work on a project = làm một dự án. Thì hiện tại tiếp diễn: is working on."}, {"c": "V", "q": "People who give a lot of money or time to help others are ______.", "o": ["selfish", "lazy", "careless", "generous"], "a": 3, "e": "generous = hào phóng, rộng lượng: sẵn lòng cho đi tiền bạc, thời gian."}, {"c": "V", "q": "The town has a new ______ centre where people can meet and join activities.", "o": ["communicate", "community", "commune", "common"], "a": 1, "e": "community centre = trung tâm cộng đồng, nơi người dân gặp gỡ và tham gia hoạt động."}, {"c": "V", "q": "Nghĩa của từ \"donate\" là gì?", "o": ["xa xôi, hẻo lánh", "quyên góp, hiến tặng", "gây quỹ, quyên góp tiền", "tình nguyện viên"], "a": 1, "e": "donate /dəʊˈneɪt/ = quyên góp, hiến tặng."}, {"c": "V", "q": "Nghĩa của từ \"remote\" là gì?", "o": ["xa xôi, hẻo lánh", "tình nguyện viên", "đăng ký", "lợi ích; có lợi cho"], "a": 0, "e": "remote /rɪˈməʊt/ = xa xôi, hẻo lánh."}, {"c": "V", "q": "Nghĩa của từ \"volunteer\" là gì?", "o": ["gây quỹ, quyên góp tiền", "tình nguyện viên", "đăng ký", "quyên góp, hiến tặng"], "a": 1, "e": "volunteer /ˌvɒlənˈtɪə/ = tình nguyện viên (n); làm tình nguyện (v)."}, {"c": "V", "q": "Nghĩa của từ \"sign up\" là gì?", "o": ["tình nguyện viên", "gây quỹ, quyên góp tiền", "đăng ký", "lợi ích; có lợi cho"], "a": 2, "e": "sign up (for) = đăng ký (tham gia)."}, {"c": "V", "q": "Nghĩa của từ \"orphanage\" là gì?", "o": ["trại trẻ mồ côi", "gây quỹ, quyên góp tiền", "quyên góp, hiến tặng", "đăng ký"], "a": 0, "e": "orphanage /ˈɔːfənɪdʒ/ = trại trẻ mồ côi (orphan = trẻ mồ côi)."}, {"c": "V", "q": "Nghĩa của từ \"raise money\" là gì?", "o": ["xa xôi, hẻo lánh", "lợi ích; có lợi cho", "đăng ký", "gây quỹ, quyên góp tiền"], "a": 3, "e": "raise money = gây quỹ, quyên góp tiền."}, {"c": "V", "q": "Nghĩa của từ \"benefit\" là gì?", "o": ["thiệt thòi, có hoàn cảnh khó khăn", "xa xôi, hẻo lánh", "lợi ích; có lợi cho", "trại trẻ mồ côi"], "a": 2, "e": "benefit /ˈbenɪfɪt/ = lợi ích (n); có lợi cho (v)."}, {"c": "V", "q": "Nghĩa của từ \"disadvantaged\" là gì?", "o": ["tình nguyện viên", "xa xôi, hẻo lánh", "thiệt thòi, có hoàn cảnh khó khăn", "gây quỹ, quyên góp tiền"], "a": 2, "e": "disadvantaged /ˌdɪsədˈvɑːntɪdʒd/ = thiệt thòi, có hoàn cảnh khó khăn."}, {"c": "P", "q": "Trọng âm của từ viết HOA: I received a nice PRESENT for my birthday.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "present ở đây là danh từ (món quà) → 'present.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: The headmaster will PRESENT the prizes to the volunteers.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "present ở đây là động từ (trao tặng) → pre'sent.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: We need to RECORD the names of all the volunteers.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Sau to là động từ (ghi lại) → re'cord.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: She keeps a RECORD of all the donations.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Sau a là danh từ (bản ghi chép) → 'record.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: There was a big INCREASE in the number of volunteers.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Sau a big là danh từ (sự tăng lên) → 'increase.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: The number of volunteers INCREASES every year.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Đây là động từ chính của câu (tăng lên) → in'creases.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: Viet Nam EXPORTS rice to many countries.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Động từ (xuất khẩu) → ex'ports.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: Rice is one of Viet Nam's main EXPORTS.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Sau main là danh từ (hàng xuất khẩu) → 'exports.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: Nobody will OBJECT to your plan.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Sau will là động từ (phản đối) → ob'ject.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: What is that strange OBJECT on the table?", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Sau strange là danh từ (đồ vật) → 'object.", "fix": 1}, {"c": "V", "q": "The work was ______ because it helped many poor children.", "o": ["helpless", "meaningless", "meaningful", "careless"], "a": 2, "e": "Công việc giúp nhiều trẻ em nghèo → meaningful (ý nghĩa)."}, {"c": "V", "q": "A ______ person doesn't pay attention to what they are doing.", "o": ["careful", "useful", "careless", "helpful"], "a": 2, "e": "Người không chú ý vào việc mình làm → careless (cẩu thả)."}, {"c": "V", "q": "This guidebook is very ______ for new volunteers.", "o": ["useful", "helpless", "useless", "harmless"], "a": 0, "e": "Sách hướng dẫn cho tình nguyện viên mới → useful (hữu ích)."}, {"c": "V", "q": "The old man lay ______ on the ground after the accident.", "o": ["meaningful", "helpful", "useful", "helpless"], "a": 3, "e": "Nằm trên đất sau tai nạn, không tự đứng dậy được → helpless (bất lực)."}, {"c": "V", "q": "Plastic bags are ______ to the environment.", "o": ["harmful", "harmless", "careful", "useless"], "a": 0, "e": "Túi nhựa gây hại cho môi trường → harmful to."}, {"c": "V", "q": "It's ______ to argue with him; he never changes his mind.", "o": ["useless", "useful", "helpful", "careful"], "a": 0, "e": "Anh ấy không bao giờ đổi ý → tranh cãi là vô ích: It's useless to V."}, {"c": "G", "q": "While I ______ my homework, the phone rang.", "o": ["do", "was doing", "did", "am doing"], "a": 1, "e": "while + quá khứ tiếp diễn: hành động đang diễn ra (làm bài) thì điện thoại reo (chen ngang)."}, {"c": "G", "q": "When the teacher came in, the students ______ about the project.", "o": ["talked", "were talking", "are talking", "talk"], "a": 1, "e": "Lúc cô giáo bước vào (QKĐ), học sinh đang nói chuyện (QKTD)."}, {"c": "G", "q": "They were cleaning the beach when it suddenly ______ to rain.", "o": ["starts", "has started", "started", "was starting"], "a": 2, "e": "Hành động ngắn chen ngang việc đang làm → quá khứ đơn: started."}, {"c": "G", "q": "While my mother ______ dinner, my father was reading a newspaper.", "o": ["cooked", "has cooked", "was cooking", "cooks"], "a": 2, "e": "Hai hành động song song trong quá khứ: while + QKTD, QKTD (was reading)."}, {"c": "G", "q": "When I ______ the news, I called my friend immediately.", "o": ["am hearing", "was hearing", "heard", "hear"], "a": 2, "e": "Hai hành động nối tiếp: nghe tin xong rồi gọi điện → cả hai quá khứ đơn. hear thường không dùng ở dạng tiếp diễn."}, {"c": "G", "q": "What ______ you ______ at 8 p.m. yesterday?", "o": ["do / do", "did / do", "are / doing", "were / doing"], "a": 3, "e": "Hỏi việc đang làm tại một thời điểm cụ thể trong quá khứ (8 p.m. yesterday) → What were you doing?"}, {"c": "G", "q": "I ______ my old friend while I was walking to the community centre.", "o": ["met", "meet", "have met", "was meeting"], "a": 0, "e": "Gặp bạn là hành động ngắn, xảy ra khi đang đi bộ → quá khứ đơn: met."}, {"c": "G", "q": "While the volunteers ______ trees, the children were watering them.", "o": ["were planting", "plant", "planted", "are planting"], "a": 0, "e": "Hai hành động song song: while + QKTD, QKTD (were watering)."}, {"c": "G", "q": "She fell and hurt her leg while she ______ the stairs.", "o": ["went down", "goes down", "was going down", "go down"], "a": 2, "e": "Đang đi xuống cầu thang (QKTD) thì ngã (QKĐ chen ngang)."}, {"c": "G", "q": "When we arrived at the orphanage, the children ______ lunch, so we waited.", "o": ["are having", "have", "had", "were having"], "a": 3, "e": "Khi chúng tôi đến, bọn trẻ đang ăn trưa (QKTD) nên chúng tôi phải đợi."}, {"c": "C", "q": "\"Thank you so much for helping me with the poster.\" – \"______\"", "o": ["You're welcome.", "I'm sorry.", "Yes, please.", "Not really."], "a": 0, "e": "Đáp lại lời cảm ơn: You're welcome (Không có gì)."}, {"c": "C", "q": "\"Thanks a lot for the donation.\" – \"______\"", "o": ["Me too.", "It's my pleasure.", "Good idea.", "Never mind."], "a": 1, "e": "It's my pleasure = Rất hân hạnh / Đó là niềm vui của tôi, dùng để đáp lại lời cảm ơn."}, {"c": "C", "q": "\"I really appreciate your help with the charity event.\" – \"______\"", "o": ["That's a pity.", "Don't mention it.", "I'd love to.", "No, thanks."], "a": 1, "e": "Don't mention it = Không có gì đâu (đáp lời cảm ơn)."}, {"c": "C", "q": "Which sentence is used to THANK someone?", "o": ["Let me help you.", "I'm really grateful for your help.", "Can you help me?", "Would you like some help?"], "a": 1, "e": "grateful = biết ơn → câu dùng để cảm ơn. Các câu còn lại là đề nghị/nhờ giúp đỡ."}, {"c": "C", "q": "\"Would you like me to carry these boxes for you?\" – \"______\"", "o": ["Yes, thanks. That's very kind of you.", "You're welcome.", "It's my pleasure.", "Don't mention it."], "a": 0, "e": "Đây là lời đề nghị giúp đỡ → nhận lời và cảm ơn: Yes, thanks. That's very kind of you. B, C, D dùng để đáp lời cảm ơn, không hợp."}, {"c": "C", "q": "\"Thank you for your time.\" – \"______\"", "o": ["Same here.", "Go ahead.", "Of course not.", "No problem."], "a": 3, "e": "No problem = Không có gì (đáp lời cảm ơn, thân mật)."}, {"c": "C", "q": "Choose the most FORMAL way to thank someone.", "o": ["Thanks a bunch!", "Thanks!", "Cheers!", "I'm extremely grateful for your support."], "a": 3, "e": "Câu trang trọng nhất: I'm extremely grateful for your support. Các câu còn lại thân mật, dùng với bạn bè."}, {"c": "C", "q": "\"It was very kind of you to help those children.\" – \"______\"", "o": ["Yes, it was.", "I was glad to help.", "I don't think so.", "You're right."], "a": 1, "e": "Đáp lại lời khen/cảm ơn vì đã giúp đỡ: I was glad to help (Tôi rất vui được giúp)."}, {"c": "R", "q": "Some high schools in the USA ask students to do community service before they graduate.", "o": ["True", "False"], "a": 0, "e": "TRUE. \"some high schools ask students to complete a number of community service hours before they graduate.\"", "tf": 1, "fix": 1, "p": "L4F1"}, {"c": "R", "q": "All American students must volunteer at hospitals.", "o": ["True", "False"], "a": 1, "e": "FALSE. Bài chỉ nói học sinh thường giúp ở ngân hàng thực phẩm, trại động vật hoặc bệnh viện; không phải tất cả và không chỉ ở bệnh viện.", "tf": 1, "fix": 1, "p": "L4F1"}, {"c": "R", "q": "In UK charity shops, people donate things that the shops then sell.", "o": ["True", "False"], "a": 0, "e": "TRUE. Người dân quyên góp quần áo, sách, đồ chơi; cửa hàng bán chúng để lấy tiền giúp người khó khăn.", "tf": 1, "fix": 1, "p": "L4F1"}, {"c": "R", "q": "Charity shops keep the money for themselves.", "o": ["True", "False"], "a": 1, "e": "FALSE. Tiền được dùng để hỗ trợ người gặp khó khăn (support people in need).", "tf": 1, "fix": 1, "p": "L4F1"}, {"c": "R", "q": "The Green Summer campaign takes place in big cities.", "o": ["True", "False"], "a": 1, "e": "FALSE. Sinh viên đến vùng nông thôn và vùng xa (rural and remote areas).", "tf": 1, "fix": 1, "p": "L4F1"}, {"c": "R", "q": "Students think volunteering makes them more confident.", "o": ["True", "False"], "a": 0, "e": "TRUE. \"these activities make them more responsible and confident.\"", "tf": 1, "fix": 1, "p": "L4F1"}, {"c": "R", "q": "1. What is the main idea of the passage?", "o": ["Volunteering is only useful for getting a job.", "Volunteering benefits both the community and the volunteers.", "Volunteering is stressful for young people.", "Teenagers should study instead of volunteering."], "a": 1, "e": "Câu đầu bài nêu ý chính: tình nguyện tốt cho cộng đồng và cho chính người tình nguyện; các đoạn sau liệt kê từng lợi ích.", "p": "L5R1"}, {"c": "R", "q": "2. Which skill is NOT mentioned in paragraph 1?", "o": ["cooking", "communicating", "solving problems", "working in a team"], "a": 0, "e": "Đoạn 1 nhắc đến communicate, solve problems, work in a team. Cooking (nấu ăn) không được nhắc đến.", "p": "L5R1"}, {"c": "R", "q": "3. Why can helping others reduce stress?", "o": ["It gives you more free time.", "It makes you rich.", "It helps you sleep longer.", "It takes your mind off your own worries."], "a": 3, "e": "\"…because it takes your mind off your own worries\" = giúp bạn quên đi những lo lắng của mình.", "p": "L5R1"}, {"c": "R", "q": "4. The word \"proud\" in paragraph 2 is closest in meaning to ______.", "o": ["pleased about something you have done", "worried about the future", "angry with other people", "tired after hard work"], "a": 0, "e": "proud = tự hào, hài lòng về điều mình đã làm.", "p": "L5R1"}, {"c": "R", "q": "5. Why do universities and employers prefer applicants with volunteer experience?", "o": ["They have more money.", "It shows that they are responsible and caring.", "They are better at maths.", "They travel a lot."], "a": 1, "e": "\"…because it shows that they are responsible and caring.\"", "p": "L5R1"}, {"c": "R", "q": "6. The word \"it\" in paragraph 4 refers to ______.", "o": ["taking part in community activities", "the university", "the CV", "the summer"], "a": 0, "e": "\"it\" thay cho việc tham gia hoạt động cộng đồng (have taken part in community activities) được nhắc ngay trước đó.", "p": "L5R1"}, {"c": "R", "q": "Volunteering is only good for the community.", "o": ["True", "False"], "a": 1, "e": "FALSE. Bài nói tình nguyện tốt cho cả cộng đồng và người tình nguyện (not only… also…).", "tf": 1, "fix": 1, "p": "L5R2"}, {"c": "R", "q": "Volunteers can learn teamwork skills.", "o": ["True", "False"], "a": 0, "e": "TRUE. \"…you learn how to … work in a team.\"", "tf": 1, "fix": 1, "p": "L5R2"}, {"c": "R", "q": "Most volunteers feel stressed after helping others.", "o": ["True", "False"], "a": 1, "e": "FALSE. Giúp người khác giúp giảm căng thẳng (reduce stress).", "tf": 1, "fix": 1, "p": "L5R2"}, {"c": "R", "q": "Volunteers can make friends with people who have the same interests.", "o": ["True", "False"], "a": 0, "e": "TRUE. \"You can make friends with other volunteers who share your interests.\"", "tf": 1, "fix": 1, "p": "L5R2"}, {"c": "R", "q": "Volunteer experience is useless when you apply for university.", "o": ["True", "False"], "a": 1, "e": "FALSE. Kinh nghiệm tình nguyện \"looks good on your CV\" và được các trường đại học ưu tiên.", "tf": 1, "fix": 1, "p": "L5R2"}, {"c": "V", "q": "Nghĩa của từ \"confident\" là gì?", "o": ["tự tin", "người nộp đơn, ứng viên", "hoàn cảnh, xuất thân", "phát triển"], "a": 0, "e": "confident /ˈkɒnfɪdənt/ = tự tin."}, {"c": "V", "q": "Nghĩa của từ \"applicant\" là gì?", "o": ["người nộp đơn, ứng viên", "xa xôi, hẻo lánh", "phát triển", "hoàn cảnh, xuất thân"], "a": 0, "e": "applicant /ˈæplɪkənt/ = người nộp đơn (apply = nộp đơn)."}, {"c": "V", "q": "Nghĩa của từ \"develop\" là gì?", "o": ["phát triển", "xa xôi, hẻo lánh", "người nộp đơn, ứng viên", "hoàn cảnh, xuất thân"], "a": 0, "e": "develop /dɪˈveləp/ = phát triển."}, {"c": "V", "q": "Nghĩa của từ \"background\" là gì?", "o": ["xa xôi, hẻo lánh", "hoàn cảnh, xuất thân", "tự tin", "người nộp đơn, ứng viên"], "a": 1, "e": "background = hoàn cảnh, xuất thân (people from different backgrounds)."}, {"c": "V", "q": "Nghĩa của từ \"remote\" là gì?", "o": ["tự tin", "xa xôi, hẻo lánh", "phát triển", "người nộp đơn, ứng viên"], "a": 1, "e": "remote /rɪˈməʊt/ = xa xôi, hẻo lánh."}, {"c": "R", "q": "1. What will the volunteers do?", "o": ["cook meals for old people", "build houses for poor families", "read books to children and help with their homework", "collect rubbish in the park"], "a": 2, "e": "\"You will read books to children … and help them with their homework.\"", "p": "L6L2"}, {"c": "R", "q": "2. How long is each volunteer session?", "o": ["four hours", "two hours", "three hours", "one hour"], "a": 2, "e": "Từ 8 giờ đến 11 giờ sáng = 3 tiếng.", "p": "L6L2"}, {"c": "R", "q": "3. Who should you send your application letter to?", "o": ["the children", "Ms Thu Ha", "Hope Orphanage", "the school principal"], "a": 1, "e": "\"send a letter to Ms Thu Ha\".", "p": "L6L2"}, {"c": "C", "q": "1. The best greeting:", "o": ["Dear Ms Thu Ha,", "To my friend,", "Hi Ha!", "Hey there,"], "a": 0, "e": "Thư trang trọng, biết tên người nhận → Dear Ms + tên,."}, {"c": "C", "q": "2. The best opening sentence:", "o": ["I want this job, OK?", "Can I join your club? Please answer soon!", "I am writing to apply for the position of volunteer in your Summer Reading Project.", "My name is Lan and I like books a lot."], "a": 2, "e": "Câu mở đầu thư xin việc nêu rõ mục đích: I am writing to apply for…"}, {"c": "C", "q": "3. The best closing sentence:", "o": ["See you later!", "That's all for now, love you.", "Write back soon, bye!", "I look forward to hearing from you."], "a": 3, "e": "Câu kết trang trọng: I look forward to hearing from you (Tôi mong nhận được hồi âm). Sau look forward to dùng V-ing."}, {"c": "C", "q": "4. The best way to end the letter before your name:", "o": ["Yours sincerely,", "Love,", "See you,", "Cheers,"], "a": 0, "e": "Thư trang trọng có tên người nhận (Dear Ms Thu Ha) → kết bằng Yours sincerely,."}, {"c": "P", "q": "Trọng âm của từ viết HOA: Our class is doing a PROJECT on helping the elderly.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Sau a là danh từ (dự án) → 'project.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: Viet Nam IMPORTS a lot of machines.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Động từ (nhập khẩu) → im'ports.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: This farm PRODUCES fresh vegetables for the local market.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Động từ (sản xuất) → pro'duces.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: Students held a PROTEST against cutting down the trees.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Sau a là danh từ (cuộc biểu tình phản đối) → 'protest.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: The Sahara is the largest hot DESERT in the world.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 0, "e": "Danh từ (sa mạc) → 'desert.", "fix": 1}, {"c": "P", "q": "Trọng âm của từ viết HOA: We must not DESERT our friends when they need help.", "o": ["Âm tiết 1", "Âm tiết 2"], "a": 1, "e": "Sau must not là động từ (bỏ rơi) → de'sert.", "fix": 1}, {"c": "V", "q": "Every year, many students ______ blood at the hospital.", "o": ["donate", "sign", "raise", "run"], "a": 0, "e": "donate blood = hiến máu."}, {"c": "V", "q": "You can ______ up for the volunteer club in the school office.", "o": ["raise", "sign", "work", "give"], "a": 1, "e": "sign up for = đăng ký."}, {"c": "V", "q": "Helping children at the orphanage is a ______ activity.", "o": ["useless", "harmful", "meaningful", "careless"], "a": 2, "e": "Công việc giúp đỡ trẻ mồ côi → meaningful (có ý nghĩa)."}, {"c": "V", "q": "The project gives free meals to ______ children in the area.", "o": ["confident", "generous", "grateful", "disadvantaged"], "a": 3, "e": "disadvantaged children = trẻ em có hoàn cảnh khó khăn."}, {"c": "V", "q": "The businessman was very ______; he gave a lot of money to the village school.", "o": ["selfish", "generous", "helpless", "harmful"], "a": 1, "e": "Tặng nhiều tiền cho trường → hào phóng: generous."}, {"c": "V", "q": "Volunteers help to make their local ______ a better place to live.", "o": ["commuter", "community", "comment", "committee"], "a": 1, "e": "local community = cộng đồng địa phương."}, {"c": "G", "q": "I ______ along the street when I saw a car accident.", "o": ["am walking", "walk", "was walking", "walked"], "a": 2, "e": "Đang đi bộ (QKTD) thì nhìn thấy tai nạn (QKĐ)."}, {"c": "G", "q": "While she ______ the dishes, she broke a plate.", "o": ["has washed", "was washing", "washes", "washed"], "a": 1, "e": "while + quá khứ tiếp diễn: đang rửa bát thì làm vỡ đĩa."}, {"c": "G", "q": "What ______ at this time yesterday?", "o": ["do you do", "are you doing", "did you do", "were you doing"], "a": 3, "e": "Thời điểm cụ thể trong quá khứ (at this time yesterday) → quá khứ tiếp diễn."}, {"c": "G", "q": "They ______ the volunteer project last year.", "o": ["were joining", "joined", "join", "are joining"], "a": 1, "e": "Hành động đã hoàn tất, có \"last year\" → quá khứ đơn: joined."}, {"c": "G", "q": "He ______ his phone while he was running in the park.", "o": ["loses", "has lost", "lost", "was losing"], "a": 2, "e": "Làm mất điện thoại là hành động ngắn xảy ra khi đang chạy → quá khứ đơn: lost."}, {"c": "G", "q": "We were having dinner ______ the lights went out.", "o": ["when", "during", "until", "while"], "a": 0, "e": "Mất điện là hành động ngắn, chen ngang → dùng when. while không đi với hành động ngắn này; during + danh từ."}, {"c": "G", "q": "Tìm lỗi sai: While I was walk to school, I saw a group of volunteers cleaning the street.", "o": ["was walk", "saw", "a group of", "cleaning"], "a": 0, "e": "was walk → was walking. Quá khứ tiếp diễn: was/were + V-ing.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: When the teacher was coming in, the students were talking loudly.", "o": ["When", "was coming", "were", "loudly"], "a": 1, "e": "was coming → came. Hành động ngắn (bước vào lớp) chen ngang → quá khứ đơn.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: They were planting trees when it was starting to rain heavily.", "o": ["were planting", "when", "was starting", "heavily"], "a": 2, "e": "was starting → started. Trời bắt đầu mưa là hành động chen ngang → quá khứ đơn.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: Our club rose a lot of money for the local orphanage last month.", "o": ["rose", "a lot of", "for", "last month"], "a": 0, "e": "rose → raised. raise money = quyên góp tiền; rise là nội động từ, không có tân ngữ.", "fix": 1}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["need<b>ed</b>", "help<b>ed</b>", "want<b>ed</b>", "donat<b>ed</b>"], "a": 1, "e": "\"helped\" đọc /t/ (sau /p/). donated, needed, wanted đọc /ɪd/ (sau t, d)."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["wash<b>ed</b>", "clean<b>ed</b>", "plann<b>ed</b>", "rais<b>ed</b>"], "a": 0, "e": "\"washed\" đọc /t/ (sau /ʃ/). raised (/z/), cleaned (/n/), planned (/n/) đọc /d/."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["laugh<b>ed</b>", "watch<b>ed</b>", "visit<b>ed</b>", "stopp<b>ed</b>"], "a": 2, "e": "\"visited\" đọc /ɪd/ (sau t). watched (/tʃ/), laughed (/f/), stopped (/p/) đọc /t/."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["collect<b>ed</b>", "deliver<b>ed</b>", "sign<b>ed</b>", "interview<b>ed</b>"], "a": 0, "e": "\"collected\" đọc /ɪd/ (sau t). delivered, signed, interviewed đọc /d/."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["play<b>ed</b>", "work<b>ed</b>", "miss<b>ed</b>", "cook<b>ed</b>"], "a": 0, "e": "\"played\" đọc /d/ (sau nguyên âm). worked, cooked (/k/), missed (/s/) đọc /t/."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["join<b>ed</b>", "start<b>ed</b>", "paint<b>ed</b>", "decid<b>ed</b>"], "a": 0, "e": "\"joined\" đọc /d/ (sau /n/). painted, decided, started đọc /ɪd/."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["provid<b>ed</b>", "attend<b>ed</b>", "organis<b>ed</b>", "support<b>ed</b>"], "a": 2, "e": "\"organised\" đọc /d/ (sau /z/). supported, provided, attended đọc /ɪd/."}, {"c": "P", "q": "Chọn từ có phần in đậm phát âm khác", "o": ["encourag<b>ed</b>", "introduc<b>ed</b>", "fix<b>ed</b>", "develop<b>ed</b>"], "a": 0, "e": "\"encouraged\" đọc /d/ (sau /dʒ/). developed (/p/), introduced (/s/), fixed (/ks/) đọc /t/."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["donation", "community", "develop", "volunteer"], "a": 3, "e": "volunteer /ˌvɒlənˈtɪə/ nhấn âm 3. com'munity, do'nation, de'velop nhấn âm 2."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["remote", "generous", "benefit", "orphanage"], "a": 0, "e": "remote /rɪˈməʊt/ nhấn âm 2. 'benefit, 'generous, 'orphanage nhấn âm 1."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["experience", "opportunity", "volunteering", "disadvantaged"], "a": 0, "e": "experience /ɪkˈspɪəriəns/ nhấn âm 2. disad'vantaged, oppor'tunity, volun'teering nhấn âm 3."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["helpful", "essential", "careful", "useless"], "a": 1, "e": "essential /ɪˈsenʃl/ nhấn âm 2. 'careful, 'helpful, 'useless nhấn âm 1."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["support", "apply", "tutor", "donate"], "a": 2, "e": "tutor /ˈtjuːtə/ nhấn âm 1. ap'ply, sup'port, do'nate nhấn âm 2."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["orphanage", "interview", "meaningful", "advertisement"], "a": 3, "e": "advertisement /ədˈvɜːtɪsmənt/ (Anh-Anh) nhấn âm 2. 'meaningful, 'interview, 'orphanage nhấn âm 1."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["excited", "confident", "generous", "careless"], "a": 0, "e": "excited /ɪkˈsaɪtɪd/ nhấn âm 2. 'confident, 'generous, 'careless nhấn âm 1."}, {"c": "P", "q": "Chọn từ có trọng âm khác", "o": ["environment", "application", "development", "announcement"], "a": 1, "e": "application /ˌæplɪˈkeɪʃn/ nhấn âm 3 (trước -tion). an'nouncement, de'velopment, en'vironment nhấn âm 2."}, {"c": "V", "q": "Our school organised a charity concert to ______ money for flood victims.", "o": ["grow", "rise", "arise", "raise"], "a": 3, "e": "raise money = gây quỹ. rise/arise là nội động từ."}, {"c": "V", "q": "Volunteers ______ hot meals to old people living alone.", "o": ["delivered", "received", "tasted", "ordered"], "a": 0, "e": "deliver meals = mang, giao bữa ăn đến cho ai."}, {"c": "V", "q": "Students can ______ up for the project on the school website.", "o": ["write", "sign", "fill", "put"], "a": 1, "e": "sign up for = đăng ký."}, {"c": "V", "q": "The club was set up to help ______ children go to school.", "o": ["rich", "disadvantaged", "wealthy", "advantaged"], "a": 1, "e": "Câu lạc bộ giúp trẻ em có hoàn cảnh khó khăn đi học → disadvantaged."}, {"c": "V", "q": "Doing volunteer work helps you ______ with people from different backgrounds.", "o": ["interact", "interest", "introduce", "include"], "a": 0, "e": "interact with = giao tiếp, tương tác với."}, {"c": "V", "q": "Good communication skills are ______ for a volunteer who works with children.", "o": ["careless", "useless", "harmless", "essential"], "a": 3, "e": "essential = cần thiết, thiết yếu."}, {"c": "V", "q": "We are ______ on helping the elderly in our neighbourhood.", "o": ["good", "fond", "interested", "keen"], "a": 3, "e": "be keen on + V-ing = thích, say mê. (fond of, interested in, good at đi với giới từ khác.)"}, {"c": "V", "q": "The organisation ______ free English classes for children in remote areas.", "o": ["makes", "runs", "walks", "does"], "a": 1, "e": "run (a class/an organisation) = điều hành, tổ chức."}, {"c": "V", "q": "Volunteering brings a lot of ______ to both the community and the volunteers.", "o": ["problems", "harm", "benefits", "damage"], "a": 2, "e": "bring benefits to = mang lại lợi ích cho."}, {"c": "V", "q": "She ______ her old clothes to the local charity shop.", "o": ["lent", "stole", "borrowed", "donated"], "a": 3, "e": "donate sth to = quyên góp cho. Đồ cũ quyên góp cho cửa hàng từ thiện."}, {"c": "G", "q": "When I came home, my sister ______ the piano.", "o": ["is playing", "plays", "played", "was playing"], "a": 3, "e": "Khi tôi về (QKĐ), chị tôi đang chơi đàn (QKTD)."}, {"c": "G", "q": "While the children ______, the volunteers were preparing lunch.", "o": ["played", "play", "were playing", "are playing"], "a": 2, "e": "Hai hành động song song: while + QKTD, QKTD (were preparing)."}, {"c": "G", "q": "When the fire alarm ______, everyone left the building.", "o": ["has rung", "was ringing", "rang", "rings"], "a": 2, "e": "Chuông báo cháy reo xong thì mọi người rời tòa nhà → hai hành động nối tiếp, quá khứ đơn."}, {"c": "G", "q": "______ I was waiting for the bus, I met an old friend.", "o": ["Until", "While", "Because", "During"], "a": 1, "e": "While + mệnh đề QKTD. During + danh từ, không đi với mệnh đề."}, {"c": "G", "q": "It ______ heavily when we left home, so we took a taxi.", "o": ["rains", "rained", "is raining", "was raining"], "a": 3, "e": "Lúc chúng tôi rời nhà, trời đang mưa (bối cảnh đang diễn ra) → quá khứ tiếp diễn."}, {"c": "G", "q": "What ______ when I called you last night?", "o": ["have you done", "did you do", "were you doing", "do you do"], "a": 2, "e": "Hỏi việc đang làm khi bị chen ngang (when I called) → What were you doing?"}, {"c": "G", "q": "I ______ the phone because I was listening to music.", "o": ["don't hear", "wasn't hearing", "didn't hear", "haven't heard"], "a": 2, "e": "hear là động từ chỉ tri giác, thường không dùng ở dạng tiếp diễn → didn't hear."}, {"c": "G", "q": "While she ______ in the village, she discovered that many children couldn't read.", "o": ["has taught", "was teaching", "teaches", "taught"], "a": 1, "e": "while + quá khứ tiếp diễn: đang dạy thì phát hiện ra."}, {"c": "G", "q": "I ______ a lost dog while I ______ home.", "o": ["was seeing / walked", "saw / was walking", "saw / walked", "was seeing / was walking"], "a": 1, "e": "Nhìn thấy (hành động ngắn, QKĐ) xảy ra khi đang đi bộ (QKTD)."}, {"c": "G", "q": "At 7 o'clock last night, my family ______ dinner together.", "o": ["are having", "had", "were having", "have"], "a": 2, "e": "Thời điểm cụ thể trong quá khứ (at 7 o'clock last night) → quá khứ tiếp diễn: were having."}, {"c": "G", "q": "Tìm lỗi sai: When I arrived, they had a meeting about the charity event, so I waited outside.", "o": ["When", "arrived", "had", "charity event"], "a": 2, "e": "had → were having. Khi tôi đến, họ đang họp (nên tôi đợi bên ngoài) → quá khứ tiếp diễn.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: This volunteer job is very meaningless because it helps many poor children.", "o": ["very", "meaningless", "helps", "poor"], "a": 1, "e": "meaningless → meaningful. Công việc giúp nhiều trẻ em nghèo → có ý nghĩa.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: While we were clean the beach, we found a lot of plastic bottles.", "o": ["While", "were", "clean", "found"], "a": 2, "e": "clean → cleaning. Quá khứ tiếp diễn: were + V-ing.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: My brother was reading a book while the phone rang.", "o": ["was reading", "while", "phone", "rang"], "a": 1, "e": "while → when. Điện thoại reo là hành động ngắn chen ngang → when + quá khứ đơn.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: I signed up for the volunteer club during I was studying in Year 9.", "o": ["signed", "for", "volunteer", "during"], "a": 3, "e": "during → while. Sau chỗ trống là mệnh đề (I was studying) → while; during chỉ đi với danh từ.", "fix": 1}, {"c": "G", "q": "Tìm lỗi sai: Thank you to help me with the poster for our charity fair.", "o": ["Thank you", "to help", "with", "the poster"], "a": 1, "e": "to help → for helping. Thank you for + V-ing.", "fix": 1}, {"c": "R", "q": "(1)", "o": ["crowded", "modern", "central", "remote"], "a": 3, "e": "Chiến dịch đến vùng xa để giúp người dân → remote.", "p": "OTF1"}, {"c": "R", "q": "(2)", "o": ["the other", "other", "another", "others"], "a": 3, "e": "Some … , while others … = một số…, những người khác… others là đại từ số nhiều.", "p": "OTF1"}, {"c": "R", "q": "(3)", "o": ["taught", "is teaching", "was teaching", "teaches"], "a": 2, "e": "While + quá khứ tiếp diễn: đang dạy thì học được nhiều điều.", "p": "OTF1"}, {"c": "R", "q": "(4)", "o": ["meaningful", "helpless", "meaningless", "careless"], "a": 0, "e": "the most + tính từ tích cực → meaningful (ý nghĩa nhất).", "p": "OTF1"}, {"c": "R", "q": "(5)", "o": ["put", "write", "take", "sign"], "a": 3, "e": "sign up for = đăng ký tham gia.", "p": "OTF1"}, {"c": "R", "q": "1. Where did Minh Anh volunteer?", "o": ["at a community library", "at a primary school", "at a hospital", "at an orphanage"], "a": 0, "e": "\"…volunteered at a community library in her neighbourhood.\"", "p": "OTF2"}, {"c": "R", "q": "2. How often did she volunteer?", "o": ["every day", "once a week", "twice a week", "three times a week"], "a": 2, "e": "Every Tuesday and Thursday = hai lần mỗi tuần.", "p": "OTF2"}, {"c": "R", "q": "3. How did Minh Anh feel at first?", "o": ["shy", "excited", "angry", "bored"], "a": 0, "e": "\"At first, she was shy…\"", "p": "OTF2"}, {"c": "R", "q": "4. What happened while she was reading a story?", "o": ["The children left the library.", "She lost the storybook.", "A little boy asked her to teach him how to read.", "The librarian gave her a present."], "a": 2, "e": "\"…while she was reading a story, a little boy asked her to teach him how to read.\"", "p": "OTF2"}, {"c": "R", "q": "5. What does Minh Anh plan to do next year?", "o": ["become a librarian", "work at a bookshop", "write a storybook", "start a reading club for children"], "a": 3, "e": "\"She plans to start a reading club for children in her area next year.\"", "p": "OTF2"}], "P": {"L4F1": {"t": "Young volunteers around the world", "p": ["In many countries, young people are encouraged to volunteer in their communities. In the USA, some high schools ask students to complete a number of community service hours before they graduate. Students often help at food banks, animal shelters or hospitals.", "In the UK, many teenagers help in charity shops, where people donate old clothes, books and toys. The shops sell these things and use the money to support people in need.", "In Viet Nam, every summer, thousands of students join the Green Summer campaign. They go to rural and remote areas to build roads, teach children and help local people. Many students say that these activities make them more responsible and confident."]}, "L5R1": {"t": "Why should teenagers volunteer?", "p": ["Volunteering is not only good for the community; it is also good for the volunteers themselves. First, volunteering helps young people develop new skills. When you help at a local library or teach children in a remote village, you learn how to communicate, solve problems and work in a team. These skills are useful for your studies and your future job.", "Second, volunteering makes you feel happier and more confident. Many volunteers say they feel proud when they see the difference they make in other people's lives. Helping others can also reduce stress, because it takes your mind off your own worries.", "Third, volunteering gives you a chance to meet new people. You can make friends with other volunteers who share your interests, and you can learn about people from different backgrounds.", "Finally, volunteer experience looks good on your CV. Many universities and employers prefer applicants who have taken part in community activities, because it shows that they are responsible and caring. So, why not sign up for a volunteer project this summer? You will help others and help yourself at the same time."]}, "L5R2": {"t": "Why should teenagers volunteer?", "p": ["Volunteering is not only good for the community; it is also good for the volunteers themselves. First, volunteering helps young people develop new skills. When you help at a local library or teach children in a remote village, you learn how to communicate, solve problems and work in a team. These skills are useful for your studies and your future job.", "Second, volunteering makes you feel happier and more confident. Many volunteers say they feel proud when they see the difference they make in other people's lives. Helping others can also reduce stress, because it takes your mind off your own worries.", "Third, volunteering gives you a chance to meet new people. You can make friends with other volunteers who share your interests, and you can learn about people from different backgrounds.", "Finally, volunteer experience looks good on your CV. Many universities and employers prefer applicants who have taken part in community activities, because it shows that they are responsible and caring. So, why not sign up for a volunteer project this summer? You will help others and help yourself at the same time."]}, "L6L2": {"t": "VOLUNTEERS WANTED!", "p": ["Green Hands Club is looking for volunteers for our Summer Reading Project. You will read books to children at Hope Orphanage and help them with their homework.", "Time: every Saturday morning, from 8 a.m. to 11 a.m., in July and August.", "Requirements: aged 15–18, good communication skills, and you must love children.", "To apply, send a letter to Ms Thu Ha (greenhands@example.com) before 30 June."]}, "OTF1": {"t": "The Green Summer campaign", "p": ["Every summer, thousands of Vietnamese students take part in the Green Summer campaign. They travel to (1) ______ areas to help local people. Some volunteers build roads and houses, while (2) ______ teach children to read and write. Last year, my sister joined the campaign in a mountain village. While she (3) ______ English to the children, she learned a lot about their culture. She said it was the most (4) ______ experience of her life. This year, I want to (5) ______ up for the campaign, too."]}, "OTF2": {"t": "Minh Anh's volunteer work", "p": ["Last summer, Minh Anh, a Year 10 student, volunteered at a community library in her neighbourhood. Every Tuesday and Thursday afternoon, she helped the librarian put books on the shelves and read stories to young children.", "At first, she was shy and did not know how to talk to the kids. However, after a few weeks, she became more confident. One afternoon, while she was reading a story, a little boy asked her to teach him how to read. Since then, she has taught him every week, and now he can read short books by himself.", "Minh Anh says volunteering has taught her patience and responsibility. She plans to start a reading club for children in her area next year."]}}, "CAT": {"V": "Từ vựng", "P": "Phát âm & Trọng âm", "G": "Ngữ pháp", "C": "Giao tiếp & Viết thư", "R": "Đọc hiểu"}};
+const AUTO_URL = 'https://formsubmit.co/ajax/khuonganh2111@gmail.com';
+const PAGE_T = 'Game Lớp 10 – Unit 4 For a better community';
+const STORE = 'game-g10-u4-v1';
+const LET = ['A','B','C','D'];
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const plain = s => String(s).replace(/<[^>]+>/g,'');
+let ST = (()=>{ try{ return JSON.parse(localStorage.getItem(STORE)||'null') || {}; }catch(e){ return {}; } })();
+const saveST = () => { try{ localStorage.setItem(STORE, JSON.stringify(ST)); }catch(e){} };
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+
+/* ---------- sound ---------- */
+let AC = null, SOUND = ST.sound !== false;
+function beep(freqs, dur=0.12, type='sine', vol=0.08){
+  if (!SOUND) return;
+  try { AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    freqs.forEach((f,i) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = type; o.frequency.value = f;
+      const t = AC.currentTime + i*dur; g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur*1.6);
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t+dur*1.7); });
+  } catch(e){}
+}
+const sndOK = () => beep([660,880],0.09,'triangle');
+const sndBad = () => beep([220,170],0.14,'sawtooth',0.05);
+const sndTick = () => beep([1200],0.03,'square',0.02);
+const sndWin = () => beep([523,659,784,1047],0.12,'triangle');
+
+/* ---------- modes ---------- */
+const MODES = [
+  {id:'challenge', name:'⚡ Thử thách 20 câu', sub:'Câu ngẫu nhiên từ cả unit · 3 mạng · có đồng hồ', big:true, pick:()=>shuffle(DATA.Q).slice(0,20), hearts:3},
+  {id:'all', name:'📚 Cả Unit 4', sub:`Toàn bộ ${DATA.Q.length} câu, xáo trộn · không giới hạn mạng`, pick:()=>shuffle(DATA.Q), hearts:0},
+  ...Object.keys(DATA.CAT).map(c => ({id:'cat'+c, name:DATA.CAT[c], sub:`${DATA.Q.filter(q=>q.c===c).length} câu · luyện riêng phần này`, pick:()=>shuffle(DATA.Q.filter(q=>q.c===c)), hearts:0}))
+];
+const timeFor = q => q.p ? 45 : (plain(q.q).length + q.o.join('').length > 160 ? 30 : 20);
+
+/* ---------- home ---------- */
+function home(msg){
+  stopTimer(); $('.hero').hidden = false;
+  const best = ST.best || {};
+  $('#app').innerHTML = `
+  <section class="card"><h2>👤 Người chơi</h2>
+    <div class="fields"><div><label class="f" for="nm">Họ và tên *</label><input id="nm" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh" value="${esc(ST.name||'')}"></div>
+    <div><label class="f" for="cl">Lớp</label><input id="cl" placeholder="7A" value="${esc(ST.cls||'')}"></div></div>
+    <div class="err" id="nmErr" ${msg?'':'hidden'}>${msg||''}</div>
+  </section>
+  <section class="card"><h2>🎮 Chọn chế độ chơi</h2>
+    <div class="modes">${MODES.map(m=>`<button class="mode${m.big?' big':''}" data-mode="${m.id}"><b>${esc(m.name)}</b><span>${esc(m.sub)}</span>${best[m.id]?`<span style="display:block;margin-top:4px;color:var(--blue-d);font-weight:600">🏅 Kỷ lục: ${best[m.id]} điểm</span>`:''}</button>`).join('')}</div>
+  </section>
+  <section class="card"><h2>📜 Luật chơi</h2>
+    <ul class="rules">
+      <li>Mỗi câu đúng được <b>100 điểm</b> + <b>thưởng thời gian</b> (5 điểm cho mỗi giây còn lại).</li>
+      <li>Đúng liên tiếp 3 câu: điểm <b>×1.5</b> · 5 câu trở lên: <b>×2</b>. Sai hoặc hết giờ thì mất combo.</li>
+      <li>Mỗi lượt có 2 quyền trợ giúp: <b>50:50</b> (bỏ 2 đáp án sai) và <b>+10 giây</b>.</li>
+      <li>Chơi xong, kết quả tự động gửi cho cô. Câu sai hiện lời giải: em <b>chép vào vở</b> nhé!</li>
+    </ul>
+    <div class="row" style="justify-content:flex-start"><button class="sound" id="snd">${SOUND?'🔊 Âm thanh: bật':'🔈 Âm thanh: tắt'}</button></div>
+  </section>`;
+  $('#snd').onclick = () => { SOUND = !SOUND; ST.sound = SOUND; saveST(); $('#snd').textContent = SOUND?'🔊 Âm thanh: bật':'🔈 Âm thanh: tắt'; };
+  document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {
+    const name = $('#nm').value.trim();
+    if (!name){ $('#nmErr').hidden = false; $('#nmErr').textContent = 'Em nhập họ tên trước khi chơi nhé.'; $('#nm').focus(); return; }
+    ST.name = name; ST.cls = $('#cl').value.trim(); saveST();
+    start(MODES.find(m => m.id===b.dataset.mode));
+  });
+  window.scrollTo({top:0});
+}
+
+/* ---------- game ---------- */
+let G = null, TIMER = null;
+function start(mode){
+  G = {mode, qs: mode.pick().map(q => { const idx = q.fix ? q.o.map((_,i)=>i) : shuffle(q.o.map((_,i)=>i)); return {...q, order: idx}; }),
+       i:0, score:0, combo:0, maxCombo:0, right:0, hearts:mode.hearts, wrong:[], fifty:true, plus:true, startT:Date.now(), answered:0};
+  beep([392,523],0.08,'triangle'); $('.hero').hidden = true; show();
+}
+function stopTimer(){ if (TIMER){ clearInterval(TIMER); TIMER = null; } }
+function hud(){
+  return `<div class="hud"><span class="pill">Câu ${G.i+1}/${G.qs.length}</span>
+    <span class="pill score">⭐ ${G.score}</span>
+    ${G.combo>=2?`<span class="pill combo">🔥 Combo ${G.combo}${G.combo>=5?' ×2':G.combo>=3?' ×1.5':''}</span>`:''}
+    <span class="grow"></span>
+    ${G.mode.hearts?`<span class="pill hearts" aria-label="Còn ${G.hearts} mạng">${'❤️'.repeat(G.hearts)}${'🤍'.repeat(G.mode.hearts-G.hearts)}</span>`:''}
+    <button class="pill" id="quit" style="cursor:pointer">✕ Thoát</button></div>`;
+}
+function show(){
+  stopTimer();
+  const q = G.qs[G.i]; G.locked = false; G.total = timeFor(q); G.left = G.total;
+  const long = q.o.some(o => plain(o).length > 28);
+  const pas = q.p ? DATA.P[q.p] : null;
+  $('#app').innerHTML = hud() + `
+  <div class="timer" id="tm"><i id="tmb"></i></div>
+  <section class="qcard pop">
+    <div class="qmeta"><span class="cat">${esc(DATA.CAT[q.c])}</span><span id="tleft">⏱ ${G.left}s</span></div>
+    ${pas?`<details class="passage" ${G.lastP===q.p?'':'open'}><summary>📖 ${esc(pas.t)} (bấm để ẩn/hiện)</summary><div>${pas.p.map(p=>`<p>${esc(p)}</p>`).join('')}</div></details>`:''}
+    <div class="qtext">${esc(q.q)}</div>
+    <div class="opts${long?'':' grid4'}">${q.order.map((oi,k)=>`<button class="opt" data-k="${k}" data-oi="${oi}"><span class="l">${q.tf?(oi?'F':'T'):LET[k]}</span><span>${q.o[oi].includes('<b>')?q.o[oi]:esc(q.o[oi])}</span></button>`).join('')}</div>
+    <div class="helps"><button class="help" id="h50" ${G.fifty&&q.o.length>2?'':'disabled'}>✂️ 50:50</button><button class="help" id="h10" ${G.plus?'':'disabled'}>⏳ +10 giây</button></div>
+    <div id="fb"></div>
+  </section>`;
+  G.lastP = q.p;
+  $('#quit').onclick = () => { if (confirm('Em muốn dừng lượt chơi này? Kết quả các câu đã làm vẫn được tính.')) finish(true); };
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.oi, b));
+  $('#h50').onclick = () => { if (!G.fifty || G.locked) return; G.fifty = false; $('#h50').disabled = true;
+    shuffle([...document.querySelectorAll('.opt')].filter(b => +b.dataset.oi !== q.a)).slice(0,2).forEach(b => { b.disabled = true; b.classList.add('gone'); }); beep([500],0.06); };
+  $('#h10').onclick = () => { if (!G.plus || G.locked) return; G.plus = false; $('#h10').disabled = true; G.left += 10; G.total += 10; tick(true); beep([700,900],0.06); };
+  tick(true);
+  TIMER = setInterval(() => { G.left--; tick(); if (G.left <= 0) answer(null, null); }, 1000);
+  window.scrollTo({top:0});
+}
+function tick(silent){
+  const pct = Math.max(0, G.left/G.total*100);
+  $('#tmb').style.width = pct + '%'; $('#tm').classList.toggle('low', G.left <= 5);
+  $('#tleft').textContent = '⏱ ' + Math.max(0,G.left) + 's';
+  if (!silent && G.left <= 5 && G.left > 0) sndTick();
+}
+function answer(oi, btn){
+  if (G.locked) return; G.locked = true; stopTimer(); G.answered++;
+  const q = G.qs[G.i], ok = oi === q.a;
+  document.querySelectorAll('.opt').forEach(b => { b.disabled = true; const v = +b.dataset.oi; if (v===q.a) b.classList.add('right'); else if (v===oi) b.classList.add('wrong'); });
+  $('#h50').disabled = $('#h10').disabled = true;
+  let gain = 0;
+  if (ok){
+    G.combo++; G.maxCombo = Math.max(G.maxCombo, G.combo); G.right++;
+    const mult = G.combo>=5 ? 2 : G.combo>=3 ? 1.5 : 1;
+    gain = Math.round((100 + Math.max(0,G.left)*5) * mult); G.score += gain;
+    sndOK(); floatTxt('+' + gain);
+  } else {
+    G.combo = 0; if (G.mode.hearts) G.hearts--;
+    G.wrong.push({q, your: oi}); sndBad();
+    document.querySelector('.qcard').classList.add('shake');
+  }
+  const keyTxt = (q.tf) ? q.o[q.a] : `${LET[q.order.indexOf(q.a)]}. ${q.o[q.a]}`;
+  const over = G.mode.hearts && G.hearts <= 0, last = G.i >= G.qs.length-1;
+  $('#fb').innerHTML = `<div class="fb ${ok?'ok':'bad'}">${ok?`<span class="gain">+${gain}</span>`:''}<div class="v">${ok?'✓ Chính xác!':(oi===null?'⏰ Hết giờ!':'✗ Chưa đúng')}</div>
+    ${ok?'':`<div><b>Đáp án:</b> ${q.o[q.a].includes('<b>')?keyTxt:esc(keyTxt)}</div>`}<div style="margin-top:4px">${esc(q.e)}</div></div>
+    <div class="row"><button class="btn btn-main" id="next">${over?'Xem kết quả 💔':last?'Xem kết quả 🏁':'Câu tiếp theo →'}</button></div>`;
+  // refresh HUD
+  const h = document.querySelector('.hud'); h.outerHTML = hud(); $('#quit').onclick = () => { if (confirm('Em muốn dừng lượt chơi này?')) finish(true); };
+  $('#next').onclick = () => { if (over || last) finish(false); else { G.i++; show(); } };
+  $('#next').focus({preventScroll:true});
+  $('#fb').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function floatTxt(t){ const d = document.createElement('div'); d.className = 'float'; d.textContent = t; document.body.appendChild(d); setTimeout(()=>d.remove(), 900); }
+
+/* ---------- end ---------- */
+function finish(quit){
+  stopTimer(); $('.hero').hidden = false;
+  const n = G.answered, pct = n ? G.right/n : 0, ten = n ? Math.round(G.right/n*100)/10 : 0;
+  const stars = pct>=0.9 ? 3 : pct>=0.7 ? 2 : pct>=0.5 ? 1 : 0;
+  const mins = Math.round((Date.now()-G.startT)/60000*10)/10;
+  ST.best = ST.best || {}; const newBest = G.score > (ST.best[G.mode.id]||0); if (newBest && n) ST.best[G.mode.id] = G.score; saveST();
+  const msg = stars===3?'Xuất sắc! Em nắm Unit 4 rất chắc.':stars===2?'Khá tốt! Ôn lại các câu sai là em sẽ đạt điểm cao.':stars===1?'Em cần cố gắng thêm. Chép kỹ các câu sai vào vở nhé.':'Đừng nản! Đọc kỹ lời giải rồi chơi lại em nhé.';
+  $('#app').innerHTML = `
+  <section class="card" style="padding:0;overflow:hidden;border:2px solid var(--blue)">
+   <div class="end-top"><div class="stars">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+     <div class="big">${G.score}</div><div style="margin-top:4px">điểm · ${esc(G.mode.name)}${newBest&&n?' · 🏅 Kỷ lục mới!':''}</div>
+     <div style="margin-top:6px;font-weight:300">${esc(ST.name)}${ST.cls?' · Lớp '+esc(ST.cls):''} — ${msg}</div></div>
+   <div style="padding:16px">
+     <div class="stats"><div class="stat">Đúng<b>${G.right}/${n}</b></div><div class="stat">Thang 10<b>${ten}</b></div><div class="stat">Combo dài nhất<b>${G.maxCombo}</b></div><div class="stat">Thời gian<b>${mins}′</b></div></div>
+     ${quit&&G.answered<G.qs.length?`<p style="font-size:14px;color:var(--muted);margin:10px 0 0">Em đã dừng ở câu ${G.answered}/${G.qs.length}.</p>`:''}
+     ${G.mode.hearts&&G.hearts<=0?`<p style="font-size:14px;color:var(--bad);font-weight:600;margin:10px 0 0">💔 Hết mạng ở câu ${G.answered}/${G.qs.length}.</p>`:''}
+     ${G.wrong.length?`<div class="notebook"><h3>📒 Chép vào vở: ${G.wrong.length} câu sai</h3><ol>${G.wrong.map(({q,your})=>`<li><b>${esc(plain(q.q))}</b>${q.c==='A'?' ('+q.o.map(plain).join(' / ')+')':''}<br>→ Đáp án: <b style="color:var(--ok)">${esc(plain(q.o[q.a]))}</b>${your===null?' <i>(hết giờ)</i>':` · Em chọn: ${esc(plain(q.o[your]))}`}<div class="why">${esc(q.e)}</div></li>`).join('')}</ol></div>`
+       : (n?`<div class="notebook"><h3>🎉 Không sai câu nào!</h3><p style="margin:0">Em thử chế độ khác hoặc phá kỷ lục của mình nhé.</p></div>`:'')}
+     <div class="sendst" id="sst"></div>
+     <div class="row"><button class="btn btn-main" id="again">🔁 Chơi lại</button><button class="btn btn-ghost" id="menu">🏠 Chọn chế độ khác</button></div>
+   </div></section>`;
+  $('#again').onclick = () => start(G.mode); $('#menu').onclick = () => home();
+  if (stars >= 2) { sndWin(); confetti(); }
+  if (n) send(ten, n, mins, quit);
+  window.scrollTo({top:0});
+}
+function send(ten, n, mins, quit){
+  const st = $('#sst'); st.textContent = '⏳ Đang gửi kết quả cho cô…'; st.style.color = 'var(--muted)';
+  const lines = [`Học sinh: ${ST.name}`, `Lớp: ${ST.cls||'(không ghi)'}`, `Bài: ${PAGE_T}`, `Chế độ: ${G.mode.name}`,
+    `Kết quả: đúng ${G.right}/${n} câu – ${ten}/10 · ${G.score} điểm game · combo dài nhất ${G.maxCombo}`,
+    `Thời gian: ${mins} phút${quit?' (dừng giữa chừng)':''}${G.mode.hearts&&G.hearts<=0?' (hết mạng)':''}`, ''];
+  if (G.wrong.length){ lines.push(`Câu sai (${G.wrong.length}):`); G.wrong.forEach(({q,your}) => lines.push(`- ${plain(q.q)} → em ${your===null?'hết giờ':'chọn: '+plain(q.o[your])} → đáp án: ${plain(q.o[q.a])}`)); }
+  else lines.push('Không sai câu nào.');
+  const subject = `[Tiếng Anh Cô Ánh] ${PAGE_T} – ${G.mode.name} – ${ST.name}${ST.cls?' - Lớp '+ST.cls:''} – ${ten}/10`;
+  fetch(AUTO_URL, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify({_subject: subject, _template:'box', _captcha:'false', 'Học sinh': ST.name, 'Lớp': ST.cls||'', 'Kết quả': lines.join('\n')})})
+   .then(r => r.json()).then(j => { if (j && (j.success===true || j.success==='true')){ st.textContent = '✅ Kết quả đã tự động gửi tới cô.'; st.style.color = 'var(--ok)'; } else throw 0; })
+   .catch(() => { st.innerHTML = '⚠️ Chưa gửi được (có thể do mạng). Em chụp màn hình kết quả gửi cô qua Zalo nhé.'; st.style.color = 'var(--bad)'; });
+}
+
+/* ---------- confetti ---------- */
+function confetti(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = $('#fx'), x = c.getContext('2d'); c.width = innerWidth; c.height = innerHeight;
+  const cols = ['#2F7DE1','#F2B53A','#23946A','#6BAAF5','#D63F5C'];
+  const P = Array.from({length:140}, () => ({x:Math.random()*c.width, y:-20-Math.random()*c.height*0.5, r:4+Math.random()*5, vy:2+Math.random()*3, vx:-1.5+Math.random()*3, a:Math.random()*6, col:cols[Math.floor(Math.random()*5)]}));
+  let f = 0; (function loop(){ x.clearRect(0,0,c.width,c.height);
+    P.forEach(p => { p.x += p.vx; p.y += p.vy; p.a += 0.1; x.fillStyle = p.col; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6); x.restore(); });
+    if (++f < 200) requestAnimationFrame(loop); else x.clearRect(0,0,c.width,c.height); })();
+}
+document.addEventListener('keydown', e => {
+  if (!G || !document.querySelector('.opt')) return;
+  const k = e.key.toUpperCase(), i = ['A','B','C','D','1','2','3','4'].indexOf(k);
+  if (i >= 0 && !G.locked){ const b = document.querySelector(`.opt[data-k="${i%4}"]`); if (b && !b.disabled) b.click(); }
+  else if (e.key === 'Enter' && G.locked && $('#next')) { e.preventDefault(); $('#next').click(); }
+});
+home();
+</script></body></html>
